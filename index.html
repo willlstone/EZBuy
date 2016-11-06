@@ -1,3 +1,4 @@
+<?php header('Access-Control-Allow-Origin: *'); ?>
 <!DOCTYPE html>
 <!-- saved from url=(0042)http://getbootstrap.com/examples/carousel/ -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -55,10 +56,11 @@
                 <li class="active"><a href="file:///C:/Users/albans2/Desktop/websys%20project/Carousel%20Template%20for%20Bootstrap.html">Home</a></li>
                 <li><a class="page-scroll" href="#about">About</a></li>
                 <li><a class="page-scroll" href="#contact">Contact</a></li>
-         <form class="navbar-form navbar-right">
+         <form class="navbar-form navbar-right" method="post" action="#" onsubmit="return false">
             <div class="form-group">
-                <input type="text" value="" class="form-control">
-                <button type="submit" class="btn btn-primary">Search</button>
+                <input type="text" value="" name="search" id="search" class="form-control">
+                <input type="submit" onclick="get_results()" name="submit" value="Submit" class="btn btn-primary" />
+              <!--   <button type="submit" onclick="get_results()" name="submit" class="btn btn-primary">Search</button> -->
             </div>
           </form>
               </ul>
@@ -146,7 +148,7 @@
       <div class="row featurette">
         <div class="col-md-7">
           <h2 class="featurette-heading">About <span class="text-muted">Why Zeni?</span></h2>
-          <p class="lead">Online shopping is becoming one of the fastest growning trends due to the increase in personal computer and mobile device usage. One of the greatest appeals of online shopping is that anyone can do it without ever having to leave the comfort of their home. Shopping is now ubiquitous. <i>That is, if you know how to do it right. </i> Not everyone is a research-guru or tech-savvy. Zeni was built for this sole purpose, which is educating consumers who may fall into these categories with their buying needs. Zeni helps ensure that every consumer is able to get their hands on the tech products that most suit their budget and needs.     </p>
+          <p id="BestBuy" class="lead">Online shopping is becoming one of the fastest growning trends due to the increase in personal computer and mobile device usage. One of the greatest appeals of online shopping is that anyone can do it without ever having to leave the comfort of their home. Shopping is now ubiquitous. <i>That is, if you know how to do it right. </i> Not everyone is a research-guru or tech-savvy. Zeni was built for this sole purpose, which is educating consumers who may fall into these categories with their buying needs. Zeni helps ensure that every consumer is able to get their hands on the tech products that most suit their budget and needs.     </p>
         </div>
         <div class="col-md-5">
           <img class="featurette-image img-responsive center-block"  alt="500x500" src="tech-cover-image.jpg">
@@ -158,7 +160,7 @@
       <div class="row featurette">
         <div class="col-md-7 col-md-push-5">
           <h2 class="featurette-heading">Built for the consumer's buying needs <span class="text-muted">How it works</span></h2>
-          <p class="lead">At Zeni, you'll find the most recent and top-rated tech aggregated it in a way that complements your buying needs. Zeni displays tech products from Walmart, Amazon, Best-Buy, and Target by filtering through product details, user reveiws, and price. Consumers can now easily and conveniently compare laptops, tablets, and smartphones and become more educated on their purchases by simply using the Zeni platform.</p>
+          <p id="Walmart" class="lead">At Zeni, you'll find the most recent and top-rated tech aggregated it in a way that complements your buying needs. Zeni displays tech products from Walmart, Amazon, Best-Buy, and Target by filtering through product details, user reveiws, and price. Consumers can now easily and conveniently compare laptops, tablets, and smartphones and become more educated on their purchases by simply using the Zeni platform.</p>
         </div>
         <div class="col-md-5 col-md-pull-7">
           <img class="featurette-image img-responsive center-block" alt="500x500" src="together.jpg">
@@ -206,6 +208,59 @@
     <script src="./index_files/holder.min.js.download"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="./index_files/ie10-viewport-bug-workaround.js.download"></script>
+
+    <!--Forms-->
+    <script>
+    // function getSignatureKey(key, dateStamp, regionName, serviceName) {
+    //  var kDate= Crypto.HMAC(Crypto.SHA256, dateStamp, "AWS4" + key, { asBytes: true})
+    //  var kRegion= Crypto.HMAC(Crypto.SHA256, regionName, kDate, { asBytes: true });
+    //  var kService=Crypto.HMAC(Crypto.SHA256, serviceName, kRegion, { asBytes: true });
+    //  var kSigning= Crypto.HMAC(Crypto.SHA256, "aws4_request", kService, { asBytes: true });
+    //  return kSigning;
+    // }
+
+    function get_results(){
+      $(document).ready(function(){
+        alert("Hello World!");//Get the data from the function
+        var keywords = $("input[name='search']").val();
+        var arr = keywords.split(" ");
+        for(var i=0; i<arr.length; i++){
+          alert(arr[i]);
+        }
+        // var today = new Date(); 
+        // var time = today.toISOString(); 
+        // time = encodeURIComponent(time);
+
+        // var signature = getSignatureKey("9FcxIWXWZmP93oEH6LIOKIukW/CxpLpwBnfiTq1o",today,"us-east-1","execute-api");
+
+        //Walmart API
+        $.ajax({
+          type: "GET",
+          url: "http://api.walmartlabs.com/v1/search?query=ipod&format=xml&categoryId=3944&apiKey=axf4sj97cjkfvk3hdh9jvvy3",
+          dataType: "text",
+          success: function(text){
+            $("#Walmart").html(text);
+            // $(xml).find('').each(function() {
+
+            // });
+          }
+        });
+
+        //BestBuy API
+        $.ajax({
+          type: "GET",
+          url: "https://api.bestbuy.com/v1/products((search=MacBook&search=Pro)&(categoryPath.id=abcat0502000))?apiKey=RYHclylDU0CfO272Hgyi4AKY&sort=regularPrice.asc&show=name,thumbnailImage,description,details.name,regularPrice,url,onSale,customerReviewAverage&pageSize=15&format=xml",
+          dataType: "text",
+          success: function(text){
+            $("#BestBuy").html(text);
+            // $(xml).find('').each(function() {
+
+            // });
+          }
+        });
+      });
+    }
+    </script>
   
 
 <svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" viewBox="0 0 500 500" preserveAspectRatio="none" style="display: none; visibility: hidden; position: absolute; top: -100%; left: -100%;"><defs><style type="text/css"></style></defs><text x="0" y="25" style="font-weight:bold;font-size:25pt;font-family:Arial, Helvetica, Open Sans, sans-serif">500x500</text></svg></body></html>
