@@ -1,8 +1,8 @@
 <?php
-	require 'config.php';
-	require 'connect.php';
-	require 'logout.php';
-	require 'check_credentials.php';
+	require './php_account_files/config.php';
+	require './php_account_files/connect.php';
+	require './php_account_files/logout.php';
+	require './php_account_files/check_credentials.php';
 
 	session_start();
 	$_SESSION['err']='';

@@ -1,0 +1,296 @@
+<!Doctype html>
+<html>
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<style>
+		.container {
+			display: block;
+			background: #99e6ff;
+			margin: auto;
+			margin-top: 100px;
+		}
+		.jumbotron{
+			margin-top: 20px;
+			background: #F8F8F8;
+		}
+
+		h2, h3 {
+			text-align: center;
+		}
+
+		.col-sm-3:hover, .col-sm-4:hover, .col-sm-6:hover {
+			background: #99e6ff;
+		}
+
+		.row .btn {
+			margin-top: 10px;
+		}
+
+		img {
+			margin: 7px;
+		}
+
+		p {
+			padding: 5px;
+		}
+
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="jumbotron" id="menu">
+			<!--Will be modified-->
+		</div>
+	</div>
+</body>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script>
+
+	//Overall query (this is what will be used to get the results)
+	var query = {
+		product_type:'',
+		//-1 means means not set (will not be factored into query unless set by user)
+		//"no_pref" is -1 equivalent for strings
+		min_price: -1,
+		max_price: -1,
+		min_review_rating:-1,
+
+		color: "no_pref",
+		manufacturer: "no_pref",
+	}
+
+	//Load the main menu as soon as the document loads
+	$(document).ready(function(){
+		var output = "<div class='row'><h2>What are you looking for?</h2></div>";
+		output+= "<div class='row'>";
+
+		//Column 1
+		output+= "<div class='col-sm-4' onclick='smartphone_menu()'>"; 
+		output+="<div class='row'> <img class='center-block' src='survey/main_menu/smartphone.png' alt='Smartphone' height='90px' width='90px'> </div>";
+		output+="<div class='row'> <h3> Smartphones </h3> </div>";
+		output+="</div>";
+
+		//Column 2
+		output+= "<div class='col-sm-4' onclick='desktop_menu()'>"; 
+		output+="<div class='row'> <img class='center-block' src='survey/main_menu/laptop.png' alt='Laptop' height='90px' width='90px'> </div>";
+		output+="<div class='row'> <h3> Laptops </h3> </div>";
+		output+="</div>";
+
+		//Column 3
+		output+= "<div class='col-sm-4'>";  
+		output+="<div class='row'> <img class='center-block' src='survey/main_menu/monitor.png' alt='Desktop' height='90px' width='90px'> </div>";
+		output+="<div class='row'> <h3> Desktops </h3> </div>";
+		output+="</div>";
+
+		// //Column 4
+		// output+= "<div class='col-sm-3'>"; 
+		// output+="<div class='row'> <img class='center-block' src='survey/main_menu/TV.png' alt='TV' height='90px' width='90px'> </div>";
+		// output+="<div class='row'> <h3> TVs (Coming Soon!) </h3> </div>";
+		// output+="</div>";
+
+		$("#menu").html(output);
+	});
+
+	//Allows the user to go back to the main_menu (same output as when page first loads)
+	function main_menu(){
+		var output = "<div class='row'><h2>What are you looking for?</h2></div>";
+		output+= "<div class='row'>";
+
+		//Column 1
+		output+= "<div class='col-sm-4' onclick='smartphone_menu()'>"; 
+		output+="<div class='row'> <img class='center-block' src='survey/main_menu/smartphone.png' alt='Smartphone' height='90px' width='90px'> </div>";
+		output+="<div class='row'> <h3> Smartphones </h3> </div>";
+		output+="</div>";
+
+		//Column 2
+		output+= "<div class='col-sm-4' onclick='laptop_menu()'>"; 
+		output+="<div class='row'> <img class='center-block' src='survey/main_menu/laptop.png' alt='Laptop' height='90px' width='90px'> </div>";
+		output+="<div class='row'> <h3> Laptops </h3> </div>";
+		output+="</div>";
+
+		//Column 3
+		output+= "<div class='col-sm-4' onclick='desktop_menu()'>";  
+		output+="<div class='row'> <img class='center-block' src='survey/main_menu/monitor.png' alt='Desktop' height='90px' width='90px'> </div>";
+		output+="<div class='row'> <h3> Desktops </h3> </div>";
+		output+="</div>";
+
+		$("#menu").html(output);
+	}
+
+//SMARTPHONE RELATED FUNCTIONS
+	//First smartphone menu (choose iphone, android, or both)
+	function smartphone_menu() {
+		var output = "<div class='row'><h2>What type of phone are you?</h2></div>";
+		output+= "<div class='row'>";
+
+		//Column 1
+		output+= "<div class='col-sm-4' onclick='iPhone_menu()'>"; 
+		output+="<div class='row'> <img class='center-block' src='survey/smartphone_menu/iphone.png' alt='iPhone' height='90px' width='90px'> </div>";
+		output+="<div class='row'> <h3> iPhone </h3> </div>";
+		output+="<div class='row'><p class='target_iphone'></p></div>";
+		output+="</div>";
+
+		//Column 2
+		output+= "<div class='col-sm-4' onclick='Android_menu()'>"; 
+		output+="<div class='row'> <img class='center-block' src='survey/smartphone_menu/galaxy.png' alt='Android phone' height='90px' width='90px'> </div>";
+		output+="<div class='row'> <h3> Android </h3> </div>";
+		output+="<div class='row'><p class='target_android'></p></div>";
+		output+="</div>";
+
+		//Column 2
+		output+= "<div class='col-sm-4' onclick='Generic_menu_phonetype()'>"; 
+		output+="<div class='row'> <img class='center-block' src='survey/smiley.png' alt='Smiley' height='90px' width='90px'> </div>";
+		output+="<div class='row'> <h3> All phones </h3> </div>";
+		output+="<div class='row'><p class='target_generic'></p></div>";
+		output+="</div>";
+
+		output+="</div>";
+
+		output+="<div class='row'> <button onclick='main_menu()' type='button' class='btn btn-default center-block'>Back</button> </div>";
+
+
+		$("#menu").html(output);
+	}
+
+	//When you click on iphone image, info about the iphone is displayed as well as the option to search only iphones
+	function iPhone_menu() {
+		var output = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
+		output+="<button onclick='phone_storage('iphone')' type='button' onclick='' class='btn btn-danger center-block'>Proceed with Device</button>";
+    	$(".target_iphone").html(output);
+	}
+
+	//When you click on iphone image, info about the android is displayed as well as the option to search only adroids
+	function Android_menu() {
+		var output = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
+		output+="<button onclick='phone_storage('android')' type='button' onclick='' class='btn btn-danger center-block'>Proceed with Device</button>";
+    	$(".target_android").html(output);
+	}
+
+	//When you click on on smiley face image, we confirm with the user that they want to see all deals (not limit by one os)
+	function Generic_menu_phonetype() {
+		var output = "iPhone? Android? Just show me the deals.";
+		output+="<button onclick='phone_storage('all')' type='button' class='btn btn-success center-block'>Proceed with all devices</button>";
+    	$(".target_generic").html(output);
+	}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	function laptop_menu() {
+		var output = "<div class='row'><h2>What type of phone are you?</h2></div>";
+		output+= "<div class='row'>";
+
+		//Column 1
+		output+= "<div class='col-sm-4' onclick='macbook()'>"; 
+		output+="<div class='row'> <img class='center-block' src='survey/laptop_menu/macbook.png' alt='Mac Laptop' height='90px' width='90px'> </div>";
+		output+="<div class='row'> <h3> MacBook (Mac Laptop) </h3> </div>";
+		output+="<div class='row'><p class='target_mac'></p></div>";
+		output+="</div>";
+
+		//Column 2
+		output+= "<div class='col-sm-4' onclick='windows_laptop()'>"; 
+		output+="<div class='row'> <img class='center-block' src='survey/laptop_menu/windows.png' alt='Windows Laptop' height='90px' width='90px'> </div>";
+		output+="<div class='row'> <h3> Windows Laptop </h3> </div>";
+		output+="<div class='row'><p class='target_pc'></p></div>";
+		output+="</div>";
+
+		//Column 2
+		output+= "<div class='col-sm-4' onclick='Generic_menu_laptoptype()'>"; 
+		output+="<div class='row'> <img class='center-block' src='survey/smiley.png' alt='Smiley' height='90px' width='90px'> </div>";
+		output+="<div class='row'> <h3> All laptops </h3> </div>";
+		output+="<div class='row'><p class='target_generic'></p></div>";
+		output+="</div>";
+
+		output+="</div>";
+
+		output+="<div class='row'> <button onclick='main_menu()' type='button' class='btn btn-default center-block'>Back</button> </div>";
+
+		$("#menu").html(output);
+
+	}
+
+	function macbook() {
+		var output = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
+		output+="<button onclick='phone_storage('android')' type='button' onclick='' class='btn btn-danger center-block'>Proceed with Device</button>";
+    	$(".target_mac").html(output);
+	}
+
+	function windows_laptop() {
+		var output = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
+		output+="<button onclick='phone_storage('android')' type='button' onclick='' class='btn btn-danger center-block'>Proceed with Device</button>";
+    	$(".target_pc").html(output);
+	}
+
+	function Generic_menu_laptoptype() {
+		var output = "Mac laptop? Windows laptop? Just show me the deals.";
+		output+="<button onclick='phone_storage('all')' type='button' class='btn btn-success center-block'>Proceed with all devices</button>";
+    	$(".target_generic").html(output);
+	}
+
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	function tv() {
+
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	function desktop_menu() {
+		var output = "<div class='row'><h2>What type of phone are you?</h2></div>";
+		output+= "<div class='row'>";
+
+		//Column 1
+		output+= "<div class='col-sm-4' onclick='mac_desktop()'>"; 
+		output+="<div class='row'> <img class='center-block' src='survey/desktop_menu/imac.png' alt='Mac Desktop' height='90px' width='90px'> </div>";
+		output+="<div class='row'> <h3> Mac Desktop </h3> </div>";
+		output+="<div class='row'><p class='target_mac'></p></div>";
+		output+="</div>";
+
+		//Column 2
+		output+= "<div class='col-sm-4' onclick='windows_desktop()'>"; 
+		output+="<div class='row'> <img class='center-block' src='survey/desktop_menu/windows_desktop.png' alt='Windows Desktop' height='90px' width='90px'> </div>";
+		output+="<div class='row'> <h3> Windows Desktop </h3> </div>";
+		output+="<div class='row'><p class='target_pc'></p></div>";
+		output+="</div>";
+
+		//Column 2
+		output+= "<div class='col-sm-4' onclick='Generic_menu_desktoptype()'>"; 
+		output+="<div class='row'> <img class='center-block' src='survey/smiley.png' alt='Smiley' height='90px' width='90px'> </div>";
+		output+="<div class='row'> <h3> All laptops </h3> </div>";
+		output+="<div class='row'><p class='target_generic'></p></div>";
+		output+="</div>";
+
+		output+="</div>";
+
+		output+="<div class='row'> <button onclick='main_menu()' type='button' class='btn btn-default center-block'>Back</button> </div>";
+
+		$("#menu").html(output);
+
+	}
+
+	function mac_desktop() {
+		var output = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
+		output+="<button onclick='phone_storage('android')' type='button' onclick='' class='btn btn-danger center-block'>Proceed with Device</button>";
+    	$(".target_mac").html(output);
+	}
+
+	function windows_desktop() {
+		var output = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
+		output+="<button onclick='phone_storage('android')' type='button' onclick='' class='btn btn-danger center-block'>Proceed with Device</button>";
+    	$(".target_pc").html(output);
+	}
+
+	function Generic_menu_desktoptype() {
+		var output = "Mac laptop? Windows laptop? Just show me the deals.";
+		output+="<button onclick='phone_storage('all')' type='button' class='btn btn-success center-block'>Proceed with all devices</button>";
+    	$(".target_generic").html(output);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+	</script>
+</html>
