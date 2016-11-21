@@ -1,7 +1,7 @@
 <?php
-	$config = array (
-		'dbhost' => 'localhost',
-		'dbusername' => 'root',
-		'dbpassword' => 'root',
-		);
-?>
+
+$config = array(
+   'DB_HOST'     => 'localhost',
+   'DB_USERNAME' => 'root',
+   'DB_PASSWORD' => '',
+);
